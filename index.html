@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
 <meta charset="UTF-8">
 <title>Tata EB Ultimate Dashboard</title>
 
@@ -137,6 +138,65 @@ canvas{background:white;border-radius:10px;height:300px!important}
 
 <body>
 
+<!-- LOADING SCREEN -->
+<div id="loader" style="
+position:fixed;
+width:100%;
+height:100%;
+background:#0f2027;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:2000;
+">
+
+<div style="text-align:center">
+<h1 style="color:#00e6ff">TATA EB Dashboard</h1>
+<p>Loading Analytics Engine...</p>
+</div>
+
+</div>
+
+<script>
+window.addEventListener("load", function(){
+setTimeout(()=>{
+document.getElementById("loader").style.display="none";
+},1200);
+});
+</script>
+
+<!-- PRODUCT HEADER BAR -->
+<div style="
+position:fixed;
+top:0;
+left:0;
+right:0;
+height:60px;
+background:rgba(0,0,0,0.9);
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 20px;
+z-index:1500;
+box-shadow:0 0 20px #00e6ff;
+backdrop-filter: blur(8px);
+">
+
+<div style="color:#00e6ff;font-weight:bold;font-size:18px">
+TATA EB Analytics • v1.0
+</div>
+
+<div>
+<span style="margin-right:15px">🟢 Live</span>
+<span>👤 Admin</span>
+</div>
+
+</div>
+
+<!-- PUSH CONTENT DOWN -->
+<div style="height:60px"></div>
+  
+<!-- YOUR EXISTING DASHBOARD CODE STARTS BELOW -->
 <div id="particles-js"></div>
 
 <div class="sidebar">
@@ -326,6 +386,20 @@ document.body.style.background.includes("135deg")
 }
 
 </script>
+<!-- 🟢 PART 4 — FOOTER -->
+<div style="
+margin-left:220px;
+padding:15px;
+background:rgba(0,0,0,0.7);
+text-align:center;
+color:#aaa;
+box-shadow:0 0 15px #00e6ff;
+">
 
+© 2026 Tata Employer Branding Analytics Dashboard  
+Developed for Academic Research • Confidential
+
+</div>
+  
 </body>
 </html>
