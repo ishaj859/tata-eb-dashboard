@@ -265,7 +265,34 @@ TATA EB Analytics • v1.0
 <h3>EVP Gap</h3>
 <canvas id="evp"></canvas>
 </div>
+<!-- NEW DATASET-BASED CHARTS -->
 
+<div class="card">
+<div class="hint">Tap for Insight</div>
+<h3>Segment Trust Comparison</h3>
+<canvas id="trustSegmentChart"></canvas>
+</div>
+
+<div class="card">
+<div class="hint">Tap for Insight</div>
+<h3>Innovation by Segment</h3>
+<canvas id="innovationSegmentChart"></canvas>
+</div>
+
+<div class="card">
+<h3>Join vs Recommend Behavior</h3>
+<canvas id="joinRecommendChart"></canvas>
+</div>
+
+<div class="card">
+<h3>Emotional vs Functional Associations</h3>
+<canvas id="emotionFunctionChart"></canvas>
+</div>
+
+<div class="card">
+<h3>Employer Brand Strength Index</h3>
+<canvas id="brandStrengthChart"></canvas>
+</div>
 </div>
 </div>
 
@@ -385,7 +412,66 @@ document.body.style.background.includes("135deg")
 ? "#ffffff"
 : "linear-gradient(135deg,#0f2027,#203a43,#2c5364)";
 }
+// ===== DATASET-BASED CHARTS =====
 
+const segmentLabels = ["Job Seekers","Employees","Campus"];
+
+new Chart(document.getElementById("trustSegmentChart"), {
+  type: "bar",
+  data: {
+    labels: segmentLabels,
+    datasets: [{
+      label: "Trust Score",
+      data: [8.3, 9.1, 7.5],
+      backgroundColor: "#00e6ff"
+    }]
+  }
+});
+
+new Chart(document.getElementById("innovationSegmentChart"), {
+  type: "bar",
+  data: {
+    labels: segmentLabels,
+    datasets: [{
+      label: "Innovation Score",
+      data: [4.5, 6.2, 3.8],
+      backgroundColor: "#ff4d6d"
+    }]
+  }
+});
+
+new Chart(document.getElementById("joinRecommendChart"), {
+  type: "line",
+  data: {
+    labels: segmentLabels,
+    datasets: [
+      { label: "Join", data: [7.8,8.6,7.1], borderColor: "#00ff88", fill:false },
+      { label: "Recommend", data: [7.5,8.8,6.9], borderColor: "#ffaa00", fill:false }
+    ]
+  }
+});
+
+new Chart(document.getElementById("emotionFunctionChart"), {
+  type: "radar",
+  data: {
+    labels: segmentLabels,
+    datasets: [
+      { label: "Emotional", data: [8.6,9.0,8.1], backgroundColor: "rgba(0,230,255,0.3)" },
+      { label: "Functional", data: [7.9,8.7,7.5], backgroundColor: "rgba(255,77,109,0.3)" }
+    ]
+  }
+});
+
+new Chart(document.getElementById("brandStrengthChart"), {
+  type: "doughnut",
+  data: {
+    labels: segmentLabels,
+    datasets: [{
+      data: [8.2,8.9,7.8],
+      backgroundColor: ["#00e6ff","#ff4d6d","#00ff88"]
+    }]
+  }
+});
 </script>
 <!-- 🟢 PART 4 — FOOTER -->
 <div style="
