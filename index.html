@@ -266,7 +266,25 @@ TATA EB Analytics • v1.0
 <canvas id="evp"></canvas>
 </div>
 <!-- NEW DATASET-BASED CHARTS -->
+<!-- CONSULTING-LEVEL CHARTS -->
 
+<div class="card">
+<div class="hint">Tap for Insight</div>
+<h3>EVP Gap Heatmap</h3>
+<canvas id="evpHeatmap"></canvas>
+</div>
+
+<div class="card">
+<div class="hint">Tap for Insight</div>
+<h3>Talent Segment Preferences</h3>
+<canvas id="segmentRadar"></canvas>
+</div>
+
+<div class="card">
+<div class="hint">Tap for Insight</div>
+<h3>Employer Positioning Map</h3>
+<canvas id="positionMap"></canvas>
+</div>
 <div class="card">
 <div class="hint">Tap for Insight</div>
 <h3>Segment Trust Comparison</h3>
@@ -413,7 +431,79 @@ document.body.style.background.includes("135deg")
 : "linear-gradient(135deg,#0f2027,#203a43,#2c5364)";
 }
 // ===== DATASET-BASED CHARTS =====
+// ===== CONSULTING-LEVEL CHARTS =====
 
+// 1️⃣ EVP GAP HEATMAP (bar representation)
+new Chart(document.getElementById("evpHeatmap"), {
+  type: "bar",
+  data: {
+    labels: ["Innovation","Growth","Flexibility","Purpose","Compensation"],
+    datasets: [
+      {
+        label: "Intended EVP",
+        data: [8,7,6,9,7],
+        backgroundColor: "#00e6ff"
+      },
+      {
+        label: "Perceived EVP",
+        data: [4,5,5,8,6],
+        backgroundColor: "#ff4d6d"
+      }
+    ]
+  },
+  options: {
+    responsive: true
+  }
+});
+
+
+// 2️⃣ TALENT SEGMENT PREFERENCE RADAR
+new Chart(document.getElementById("segmentRadar"), {
+  type: "radar",
+  data: {
+    labels: ["Brand","Salary","Growth","Learning","Culture","Stability"],
+    datasets: [
+      {
+        label: "Job Seekers",
+        data: [8,9,8,7,6,6],
+        backgroundColor: "rgba(0,230,255,0.3)"
+      },
+      {
+        label: "Employees",
+        data: [7,8,7,8,8,9],
+        backgroundColor: "rgba(255,77,109,0.3)"
+      },
+      {
+        label: "Campus",
+        data: [7,7,9,9,6,6],
+        backgroundColor: "rgba(0,255,136,0.3)"
+      }
+    ]
+  }
+});
+
+
+// 3️⃣ EMPLOYER POSITIONING MAP (Scatter)
+new Chart(document.getElementById("positionMap"), {
+  type: "scatter",
+  data: {
+    datasets: [{
+      label: "Tata Position",
+      data: [{x:4.5, y:8.5}],
+      backgroundColor: "#00ff88"
+    }]
+  },
+  options: {
+    scales: {
+      x: {
+        title: {display: true, text: "Innovation"}
+      },
+      y: {
+        title: {display: true, text: "Trust"}
+      }
+    }
+  }
+});
 const segmentLabels = ["Job Seekers","Employees","Campus"];
 
 new Chart(document.getElementById("trustSegmentChart"), {
