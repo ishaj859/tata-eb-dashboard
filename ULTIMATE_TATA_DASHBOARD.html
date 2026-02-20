@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Tata EB Ultimate Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+
+<style>
+
+/* BACKGROUND */
+
+body{
+margin:0;
+font-family:Segoe UI;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+overflow-x:hidden;
+}
+
+#particles-js{
+position:fixed;
+width:100%;
+height:100%;
+z-index:-1;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+position:fixed;
+width:200px; /* narrower */
+height:100vh;
+background:rgba(0,0,0,0.85);
+padding:20px;
+box-shadow:0 0 25px #00e6ff;
+}
+
+.sidebar h2{color:#00e6ff;text-align:center}
+
+.nav-btn{
+width:100%;
+padding:10px;
+margin:8px 0;
+background:#111;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+transition:.3s;
+}
+
+.nav-btn:hover{
+background:#00e6ff;
+color:black;
+transform:scale(1.05);
+}
+
+/* MAIN */
+
+.main{margin-left:220px;padding:25px}
+
+/* KPI */
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+
+.kpi{
+background:rgba(255,255,255,0.06);
+padding:20px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 0 20px #00e6ff;
+transition:.3s;
+}
+
+.kpi:hover{transform:scale(1.05)}
+
+/* GRID */
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+
+.card{
+background:rgba(255,255,255,0.05);
+padding:20px;
+border-radius:15px;
+box-shadow:0 0 20px rgba(0,0,0,0.5);
+position:relative;
+cursor:pointer;
+transition:.3s;
+}
+
+.card:hover{
+transform:scale(1.02);
+box-shadow:0 0 25px #00e6ff;
+}
+
+.hint{
+position:absolute;
+top:10px;
+right:10px;
+background:#00e6ff;
+color:black;
+padding:3px 8px;
+border-radius:6px;
+font-size:12px;
+}
+
+/* MODAL */
+
+.modal{
+display:none;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.92);
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:999;
+text-align:center;
+padding:30px;
+}
+
+.modal button{
+margin-top:20px;
+padding:10px 20px;
+background:#00e6ff;
+border:none;
+cursor:pointer;
+}
+
+canvas{background:white;border-radius:10px;height:300px!important}
+
+</style>
+</head>
+
+<body>
+
+<div id="particles-js"></div>
+
+<div class="sidebar">
+<h2>TATA EB</h2>
+
+<button class="nav-btn" onclick="show('dashboard')">Dashboard</button>
+<button class="nav-btn" onclick="show('segments')">Segments</button>
+<button class="nav-btn" onclick="showHelp()">How to Use</button>
+<button class="nav-btn" onclick="showInsights()">Insights</button>
+<button class="nav-btn" onclick="toggleTheme()">Dark/Light</button>
+
+</div>
+
+<div class="main">
+
+<h1>Employer Branding Dashboard — Tata Group</h1>
+
+<!-- KPI -->
+
+<div class="kpis">
+<div class="kpi"><h1>82%</h1>Trust</div>
+<div class="kpi"><h1>68%</h1>Attractiveness</div>
+<div class="kpi"><h1>41%</h1>Innovation</div>
+<div class="kpi"><h1>74%</h1>Purpose</div>
+</div>
+
+<!-- FILTER -->
+
+<select id="segmentFilter">
+<option value="all">All Talent</option>
+<option value="job">Job Seekers</option>
+<option value="emp">Employees</option>
+<option value="campus">Campus</option>
+</select>
+
+<button onclick="applyFilter()">Apply Filter</button>
+<button onclick="resetFilter()">Reset</button>
+
+<!-- DASHBOARD -->
+
+<div id="dashboard">
+
+<div class="grid">
+
+<div class="card" onclick="openModal('Perception: Trusted but traditional.')">
+<div class="hint">Tap for Insight</div>
+<h3>Employer Perception</h3>
+<canvas id="perception"></canvas>
+</div>
+
+<div class="card" onclick="openModal('Associations: Security & pride dominate.')">
+<div class="hint">Tap for Insight</div>
+<h3>Associations</h3>
+<canvas id="assoc"></canvas>
+</div>
+
+<div class="card" onclick="openModal('Drivers: Growth is top factor.')">
+<div class="hint">Tap for Insight</div>
+<h3>Drivers of Employer Choice</h3>
+<canvas id="drivers"></canvas>
+</div>
+
+<div class="card" onclick="openModal('EVP Gap: Innovation gap exists.')">
+<div class="hint">Tap for Insight</div>
+<h3>EVP Gap</h3>
+<canvas id="evp"></canvas>
+</div>
+
+</div>
+</div>
+
+<!-- SEGMENTS -->
+
+<div id="segments" style="display:none">
+<canvas id="segmentChart"></canvas>
+</div>
+
+</div>
+
+<!-- MODAL -->
+
+<div id="modal" class="modal">
+<p id="modalText"></p>
+<button onclick="closeModal()">Close</button>
+</div>
+
+<script>
+
+/* PARTICLES */
+
+particlesJS.load('particles-js',
+'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.json');
+
+/* CHARTS */
+
+window.onload=function(){
+
+new Chart(document.getElementById('perception'),{
+type:'doughnut',
+data:{labels:['Stable','Purpose','Traditional','Innovative'],
+datasets:[{data:[35,30,20,15],
+backgroundColor:['#00e6ff','#ff4d6d','#ffa500','#66ff66']}]}
+});
+
+new Chart(document.getElementById('assoc'),{
+type:'radar',
+data:{labels:['Security','Growth','Innovation','Pride','Learning'],
+datasets:[{data:[9,6,4,8,7]}]}
+});
+
+new Chart(document.getElementById('drivers'),{
+type:'bar',
+data:{labels:['Growth','Brand','Salary','Learning','Culture','Stability'],
+datasets:[{data:[9,8,7,8,7,6],backgroundColor:'#00e6ff'}]}
+});
+
+new Chart(document.getElementById('evp'),{
+type:'bar',
+data:{labels:['Innovation','Growth','Flexibility','Purpose','Pay'],
+datasets:[
+{label:'Intended',data:[8,7,6,9,7],backgroundColor:'#00e6ff'},
+{label:'Perceived',data:[4,5,5,8,6],backgroundColor:'#ff4d6d'}
+]}
+});
+
+window.segmentChart=new Chart(document.getElementById('segmentChart'),{
+type:'bar',
+data:{labels:['Job','Employees','Campus'],
+datasets:[{data:[6,8,5],backgroundColor:'#ffa500'}]}
+});
+
+}
+
+/* FILTER */
+
+function applyFilter(){
+let v=document.getElementById("segmentFilter").value;
+
+if(v==="job") segmentChart.data.datasets[0].data=[9,0,0];
+if(v==="emp") segmentChart.data.datasets[0].data=[0,8,0];
+if(v==="campus") segmentChart.data.datasets[0].data=[0,0,7];
+if(v==="all") segmentChart.data.datasets[0].data=[6,8,5];
+
+segmentChart.update();
+}
+
+function resetFilter(){
+segmentChart.data.datasets[0].data=[6,8,5];
+segmentChart.update();
+}
+
+/* NAV */
+
+function show(id){
+document.getElementById("dashboard").style.display=id==="dashboard"?"block":"none";
+document.getElementById("segments").style.display=id==="segments"?"block":"none";
+}
+
+/* MODAL */
+
+function openModal(text){
+document.getElementById("modal").style.display="flex";
+document.getElementById("modalText").innerText=text;
+}
+
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+
+/* HELP */
+
+function showHelp(){
+openModal("Tap graphs for insights. Use filters to analyze segments. Navigate using sidebar.");
+}
+
+function showInsights(){
+openModal("Key Insight: Tata has strong trust but needs innovation positioning to attract Gen Z.");
+}
+
+/* DARK LIGHT */
+
+function toggleTheme(){
+document.body.style.background =
+document.body.style.background.includes("135deg")
+? "#ffffff"
+: "linear-gradient(135deg,#0f2027,#203a43,#2c5364)";
+}
+
+</script>
+
+</body>
+</html>
